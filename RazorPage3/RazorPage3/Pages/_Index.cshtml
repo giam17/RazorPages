@@ -1,0 +1,91 @@
+﻿@page
+@{
+    ViewData["Title"] = "To-Do List";
+}
+
+<div class="container">
+    <header>
+        <h1 class="text-center">To-Do List</h1>
+    </header>
+
+    <!-- Formulario para agregar tarea -->
+    <form method="post" class="mb-4">
+        <div class="form-group">
+            <label for="Title">Task Title</label>
+            <input type="text" name="Title" id="Title" class="form-control" placeholder="Enter Task Title" required />
+        </div>
+        <div class="form-group">
+            <label for="Description">Task Description</label>
+            <textarea name="Description" id="Description" class="form-control" placeholder="Enter Task Description" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="DueDate">Due Date</label>
+            <input type="date" name="DueDate" id="DueDate" class="form-control" required />
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Add Task</button>
+    </form>
+
+    <!-- Filtro de tareas -->
+    <div class="mb-3">
+        <label for="taskFilter">Filter Tasks</label>
+        <select id="taskFilter" class="form-control" onchange="filterTasks(this.value)">
+            <option value="all">All</option>
+            <option value="completed">Completed</option>
+            <option value="pending">Pending</option>
+        </select>
+    </div>
+
+    <!-- Lista de tareas (Datos estáticos) -->
+    <div class="task-list">
+        <div class="task completed">
+            <h3>Task 1</h3>
+            <p>Description of task 1</p>
+            <p>Due: 2025-08-15</p>
+            <div class="task-actions">
+                <button class="btn btn-success btn-sm">Mark as Completed</button>
+                <button class="btn btn-warning btn-sm">Edit</button>
+                <button class="btn btn-danger btn-sm">Delete</button>
+            </div>
+        </div>
+
+        <div class="task pending">
+            <h3>Task 2</h3>
+            <p>Description of task 2</p>
+            <p>Due: 2025-08-16</p>
+            <div class="task-actions">
+                <button class="btn btn-success btn-sm">Mark as Completed</button>
+                <button class="btn btn-warning btn-sm">Edit</button>
+                <button class="btn btn-danger btn-sm">Delete</button>
+            </div>
+        </div>
+
+        <div class="task completed">
+            <h3>Task 3</h3>
+            <p>Description of task 3</p>
+            <p>Due: 2025-08-17</p>
+            <div class="task-actions">
+                <button class="btn btn-success btn-sm">Mark as Completed</button>
+                <button class="btn btn-warning btn-sm">Edit</button>
+                <button class="btn btn-danger btn-sm">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Función para filtrar tareas
+    function filterTasks(status) {
+        const tasks = document.querySelectorAll('.task');
+        tasks.forEach(task => {
+            if (status === "all") {
+                task.style.display = 'block';
+            } else if (status === "completed" && task.classList.contains('completed')) {
+                task.style.display = 'block';
+            } else if (status === "pending" && task.classList.contains('pending')) {
+                task.style.display = 'block';
+            } else {
+                task.style.display = 'none';
+            }
+        });
+    }
+</script>

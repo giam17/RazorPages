@@ -1,0 +1,42 @@
+﻿@page
+@{
+    ViewData["Title"] = "GIAM";
+}
+
+<div class="container">
+    <header>
+        <h1 class="text-center">GESTION DE TAREAS :]</h1>
+    </header>
+
+    <form method="post" class="mb-4">
+        <div class="form-group">
+            <label for="Title">Igresa tu tarea</label>
+            <input type="text" name="Title" id="Title" class="form-control" placeholder="....." required />
+        </div>
+        <div class="form-group">
+            <label for="Description">Alguna Description</label>
+            <textarea name="Description" id="Description" class="form-control" placeholder="....." required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="DueDate">Ingresa la Fecha</label>
+            <input type="date" name="DueDate" id="DueDate" class="form-control" required />
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Add Task</button>
+    </form>
+
+    <div class="mb-3">
+        <label for="taskFilter">Filter Tasks</label>
+        <select id="taskFilter" class="form-control" onchange="filterTasks(this.value)">
+            <option value="all">Todo</option>
+            <option value="completed">Completado</option>
+            <option value="pending">Pendiente</option>
+        </select>
+    </div>
+
+    
+    <div class="task-list">
+     
+    </div>
+</div>
+
+
