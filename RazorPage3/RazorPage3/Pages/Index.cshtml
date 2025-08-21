@@ -1,42 +1,116 @@
 ﻿@page
+@model RazorPage3.Pages.IndexModel
 @{
     ViewData["Title"] = "GIAM";
 }
 
-<div class="container">
-    <header>
-        <h1 class="text-center">GESTION DE TAREAS :]</h1>
-    </header>
+<div class="layout">
 
-    <form method="post" class="mb-4">
-        <div class="form-group">
-            <label for="Title">Igresa tu tarea</label>
-            <input type="text" name="Title" id="Title" class="form-control" placeholder="....." required />
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header d-flex align-items-center justify-content-between">
+            <span class="fw-bold">Menú</span>
         </div>
-        <div class="form-group">
-            <label for="Description">Alguna Description</label>
-            <textarea name="Description" id="Description" class="form-control" placeholder="....." required></textarea>
-        </div>
-        <div class="form-group">
-            <label for="DueDate">Ingresa la Fecha</label>
-            <input type="date" name="DueDate" id="DueDate" class="form-control" required />
-        </div>
-        <button type="submit" class="btn btn-primary mt-3">Add Task</button>
-    </form>
 
-    <div class="mb-3">
-        <label for="taskFilter">Filter Tasks</label>
-        <select id="taskFilter" class="form-control" onchange="filterTasks(this.value)">
-            <option value="all">Todo</option>
-            <option value="completed">Completado</option>
-            <option value="pending">Pendiente</option>
-        </select>
-    </div>
+        <nav class="nav flex-column sidebar-nav">
+            <a href="#" class="nav-link active" data-target="#panel-lista" aria-current="page">
+                📋 Ver tareas
+            </a>
+            <a href="#" class="nav-link" data-target="#panel-form">
+                ➕ Registrar
+            </a>
+        </nav>
+    </aside>
 
-    
-    <div class="task-list">
-     
-    </div>
+    <main id="content" class="content">
+
+        <header class="header-bar mb-3 d-flex align-items-center">
+            <h1 class="m-0">GESTION DE TAREAS :]</h1>
+        </header>
+
+        <section id="panel-lista" class="panel active" aria-labelledby="link-lista">
+            <div class="card mb-3">
+                <div class="card-header">Listado</div>
+                <div class="card-body p-0">
+                    <table class="table table-bordered m-0">
+                        <thead>
+                            <tr>
+                                <th>Nombre Tarea</th>
+                                <th>Descripcion</th>
+                                <th>Fecha Vencimiento</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Tareas.Count == 0)
+                            {
+                                <tr><td colspan="5" class="text-center">Sin tareas</td></tr>
+                            }
+                            else
+                            {
+                                foreach (var t in Model.Tareas)
+                                {
+                                    <tr>
+                                        <td>@t.nombreTarea</td>
+                                        <td>@t.descripcion</td>
+                                        <td>@t.fechaVencimiento</td>
+                                        <td><span class="@Model.Badge(t.estado)">@t.estado</span></td>
+                                        <td>
+                                            <button class="btn btn-warning btn-sm" disabled>Editar</button>
+                                            <button class="btn btn-danger btn-sm" disabled>Eliminar</button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card-footer">
+                    <nav>
+                        <ul class="pagination justify-content-center m-0">
+                            <li class="page-item @(Model.PaginaActual == 1 ? "disabled" : "")">
+                                <a class="page-link" asp-page="./Index" asp-route-pagina="@(Model.PaginaActual - 1)">«</a>
+                            </li>
+                            @for (int i = 1; i <= Model.TotalPaginas; i++)
+                            {
+                                <li class="page-item @(i == Model.PaginaActual ? "active" : "")">
+                                    <a class="page-link" asp-page="./Index" asp-route-pagina="@i">@i</a>
+                                </li>
+                            }
+                            <li class="page-item @(Model.PaginaActual == Model.TotalPaginas ? "disabled" : "")">
+                                <a class="page-link" asp-page="./Index" asp-route-pagina="@(Model.PaginaActual + 1)">»</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </section>
+
+        <section id="panel-form" class="panel" aria-labelledby="link-form">
+            <div class="card">
+                <div class="card-header">Registrar nueva tarea</div>
+                <div class="card-body">
+                    <form method="post" class="mb-2">
+                        <div class="mb-3">
+                            <label for="Title" class="form-label">Ingresa tu tarea</label>
+                            <input type="text" name="Title" id="Title" class="form-control" placeholder="....." required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Description" class="form-label">Alguna Descripción</label>
+                            <textarea name="Description" id="Description" class="form-control" placeholder="....." required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="DueDate" class="form-label">Ingresa la Fecha</label>
+                            <input type="date" name="DueDate" id="DueDate" class="form-control" required />
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary" disabled>Guardar</button>
+                            <button type="reset" class="btn btn-outline-secondary">Limpiar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
 </div>
-
-
