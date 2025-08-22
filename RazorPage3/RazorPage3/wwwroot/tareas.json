@@ -2,7 +2,7 @@
   {
     "nombreTarea": "Escribir informe semanal",
     "fechaVencimiento": "25/08/2025",
-    "estado": "En curso"
+    "estado": "Pendiente"
   },
   {
     "nombreTarea": "Planificar menú semanal",
@@ -32,7 +32,7 @@
   {
     "nombreTarea": "Limpiar la cocina",
     "fechaVencimiento": "20/08/2025",
-    "estado": "En curso"
+    "estado": "Finalizado"
   },
   {
     "nombreTarea": "Enviar correo importante",
@@ -62,7 +62,7 @@
   {
     "nombreTarea": "Investigar un nuevo curso online",
     "fechaVencimiento": "25/08/2025",
-    "estado": "En curso"
+    "estado": "Finalizado"
   },
   {
     "nombreTarea": "Revisar presupuesto mensual",
@@ -142,12 +142,12 @@
   {
     "nombreTarea": "Lavar el coche",
     "fechaVencimiento": "24/08/2025",
-    "estado": "Pendiente"
+    "estado": "En curso"
   },
   {
     "nombreTarea": "Hacer un boceto de un dibujo",
     "fechaVencimiento": "22/08/2025",
-    "estado": "En curso"
+    "estado": "Pendiente"
   },
   {
     "nombreTarea": "Ordenar la biblioteca",

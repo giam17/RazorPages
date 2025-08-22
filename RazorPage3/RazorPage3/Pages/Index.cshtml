@@ -29,13 +29,28 @@
 
         <section id="panel-lista" class="panel active" aria-labelledby="link-lista">
             <div class="card mb-3">
-                <div class="card-header">Listado</div>
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <span>Listado</span>
+                    <form method="get" class="d-flex align-items-center gap-2" style="margin:0;">
+                        <label for="filtro" class="me-2">Filtrar:</label>
+                        <select id="filtro"
+                                name="filtro"
+                                class="form-select form-select-sm"
+                                data-current="@Model.Filtro"
+                                onchange="this.form.submit()">
+                            <option value="todos">Todos</option>
+                            <option value="finalizado">Finalizado</option>
+                            <option value="pendiente">Pendiente</option>
+                            <option value="en curso">En curso</option>
+                        </select>
+                    </form>
+                </div>
+
                 <div class="card-body p-0">
                     <table class="table table-bordered m-0">
                         <thead>
                             <tr>
                                 <th>Nombre Tarea</th>
-                                <th>Descripcion</th>
                                 <th>Fecha Vencimiento</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
@@ -52,7 +67,6 @@
                                 {
                                     <tr>
                                         <td>@t.nombreTarea</td>
-                                        <td>@t.descripcion</td>
                                         <td>@t.fechaVencimiento</td>
                                         <td><span class="@Model.Badge(t.estado)">@t.estado</span></td>
                                         <td>
@@ -70,16 +84,25 @@
                     <nav>
                         <ul class="pagination justify-content-center m-0">
                             <li class="page-item @(Model.PaginaActual == 1 ? "disabled" : "")">
-                                <a class="page-link" asp-page="./Index" asp-route-pagina="@(Model.PaginaActual - 1)">«</a>
+                                <a class="page-link"
+                                   asp-page="./Index"
+                                   asp-route-pagina="@(Model.PaginaActual - 1)"
+                                   asp-route-filtro="@Model.Filtro">«</a>
                             </li>
                             @for (int i = 1; i <= Model.TotalPaginas; i++)
                             {
                                 <li class="page-item @(i == Model.PaginaActual ? "active" : "")">
-                                    <a class="page-link" asp-page="./Index" asp-route-pagina="@i">@i</a>
+                                    <a class="page-link"
+                                       asp-page="./Index"
+                                       asp-route-pagina="@i"
+                                       asp-route-filtro="@Model.Filtro">@i</a>
                                 </li>
                             }
                             <li class="page-item @(Model.PaginaActual == Model.TotalPaginas ? "disabled" : "")">
-                                <a class="page-link" asp-page="./Index" asp-route-pagina="@(Model.PaginaActual + 1)">»</a>
+                                <a class="page-link"
+                                   asp-page="./Index"
+                                   asp-route-pagina="@(Model.PaginaActual + 1)"
+                                   asp-route-filtro="@Model.Filtro">»</a>
                             </li>
                         </ul>
                     </nav>
@@ -96,10 +119,7 @@
                             <label for="Title" class="form-label">Ingresa tu tarea</label>
                             <input type="text" name="Title" id="Title" class="form-control" placeholder="....." required />
                         </div>
-                        <div class="mb-3">
-                            <label for="Description" class="form-label">Alguna Descripción</label>
-                            <textarea name="Description" id="Description" class="form-control" placeholder="....." required></textarea>
-                        </div>
+
                         <div class="mb-3">
                             <label for="DueDate" class="form-label">Ingresa la Fecha</label>
                             <input type="date" name="DueDate" id="DueDate" class="form-control" required />

@@ -279,6 +279,8 @@ h1.h4, h1, h2, h3 {
     letter-spacing: .2px;
 }
 
+
+
 .nav-link:focus {
     outline: 2px dashed rgba(72,148,130,0.5);
     outline-offset: 2px;

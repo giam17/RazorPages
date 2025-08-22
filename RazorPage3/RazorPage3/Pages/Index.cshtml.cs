@@ -9,20 +9,45 @@ namespace RazorPage3.Pages
         public List<Tarea> Tareas { get; private set; } = new();
         public int PaginaActual { get; private set; }
         public int TotalPaginas { get; private set; }
-        public int TamanoPagina { get; private set; } = 8;
+        public int TamanoPagina { get; private set; } = 5;
 
-        public void OnGet(int pagina = 1)
+        public string Filtro { get; private set; } = "todos";
+
+        public void OnGet(int pagina = 1, string? filtro = "todos")
         {
+            Filtro = string.IsNullOrWhiteSpace(filtro) ? "todos" : filtro;
+
             var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "tareas.json");
             var json = System.IO.File.ReadAllText(path);
-            var todas = JsonSerializer.Deserialize<List<Tarea>>(json) ?? new List<Tarea>();
-            todas = todas.OrderBy(t => t.fechaVencimiento).ToList();
+            var todasLasTareas = JsonSerializer.Deserialize<List<Tarea>>(json) ?? new List<Tarea>();
 
-            var total = todas.Count;
-            TotalPaginas = Math.Max(1, (int)Math.Ceiling(total / (double)TamanoPagina));
-            PaginaActual = Math.Min(Math.Max(1, pagina), TotalPaginas);
+            IEnumerable<Tarea> tareasFiltradas = todasLasTareas;
+            string Norm(string? s) => (s ?? "").Trim();
 
-            Tareas = todas
+            switch (Filtro.ToLowerInvariant())
+            {
+                case "finalizado":
+                    tareasFiltradas = todasLasTareas.Where(t => Norm(t.estado) == "Finalizado");
+                    break;
+                case "pendiente":
+                    tareasFiltradas = todasLasTareas.Where(t => Norm(t.estado) == "Pendiente");
+                    break;
+                case "en curso":
+                    tareasFiltradas = todasLasTareas.Where(t => Norm(t.estado) == "En curso");
+                    break;
+                case "todos":
+                default:
+                    tareasFiltradas = todasLasTareas;
+                    break;
+            }
+
+            PaginaActual = pagina < 1 ? 1 : pagina;
+            var total = tareasFiltradas.Count();
+            TotalPaginas = (int)Math.Ceiling(total / (double)TamanoPagina);
+            if (TotalPaginas == 0) TotalPaginas = 1;
+            if (PaginaActual > TotalPaginas) PaginaActual = TotalPaginas;
+
+            Tareas = tareasFiltradas
                 .Skip((PaginaActual - 1) * TamanoPagina)
                 .Take(TamanoPagina)
                 .ToList();
@@ -30,14 +55,17 @@ namespace RazorPage3.Pages
 
         public string Badge(string? estado)
         {
-            return estado?.ToLowerInvariant() switch
+            switch ((estado ?? "").Trim().ToLowerInvariant())
             {
-                "completada" => "badge bg-success",
-                "pendiente" => "badge bg-warning text-dark",
-                "en curso" => "badge bg-info",
-                "cancelada" => "badge bg-danger",
-                _ => "badge bg-secondary"
-            };
+                case "finalizado":
+                    return "badge bg-success";
+                case "pendiente":
+                    return "badge bg-warning text-dark";
+                case "en curso":
+                    return "badge bg-info";
+                default:
+                    return "badge bg-secondary";
+            }
         }
     }
 }
