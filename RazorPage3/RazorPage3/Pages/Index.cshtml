@@ -36,13 +36,26 @@
                         <select id="filtro"
                                 name="filtro"
                                 class="form-select form-select-sm"
-                                data-current="@Model.Filtro"
-                                onchange="this.form.submit()">
+                                data-current="@Model.Filtro">
                             <option value="todos">Todos</option>
                             <option value="finalizado">Finalizado</option>
                             <option value="pendiente">Pendiente</option>
                             <option value="en curso">En curso</option>
                         </select>
+
+                        <label for="tamano" class="ms-3 me-2">Mostrar:</label>
+                        <select id="tamano"
+                                name="tamano"
+                                class="form-select form-select-sm"
+                                data-current="@Model.TamanoPagina">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                        </select>
+
+                        <input type="hidden" name="pagina" value="1" />
+                        <button type="submit" class="btn btn-primary btn-sm ms-2">Aplicar</button>
                     </form>
                 </div>
 
@@ -80,14 +93,16 @@
                     </table>
                 </div>
 
-                <div class="card-footer">
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <button id="btnCrearTarea" class="btn btn-success">Crear tarea</button>
                     <nav>
                         <ul class="pagination justify-content-center m-0">
                             <li class="page-item @(Model.PaginaActual == 1 ? "disabled" : "")">
                                 <a class="page-link"
                                    asp-page="./Index"
                                    asp-route-pagina="@(Model.PaginaActual - 1)"
-                                   asp-route-filtro="@Model.Filtro">«</a>
+                                   asp-route-filtro="@Model.Filtro"
+                                   asp-route-tamano="@Model.TamanoPagina">«</a>
                             </li>
                             @for (int i = 1; i <= Model.TotalPaginas; i++)
                             {
@@ -95,14 +110,16 @@
                                     <a class="page-link"
                                        asp-page="./Index"
                                        asp-route-pagina="@i"
-                                       asp-route-filtro="@Model.Filtro">@i</a>
+                                       asp-route-filtro="@Model.Filtro"
+                                       asp-route-tamano="@Model.TamanoPagina">@i</a>
                                 </li>
                             }
                             <li class="page-item @(Model.PaginaActual == Model.TotalPaginas ? "disabled" : "")">
                                 <a class="page-link"
                                    asp-page="./Index"
                                    asp-route-pagina="@(Model.PaginaActual + 1)"
-                                   asp-route-filtro="@Model.Filtro">»</a>
+                                   asp-route-filtro="@Model.Filtro"
+                                   asp-route-tamano="@Model.TamanoPagina">»</a>
                             </li>
                         </ul>
                     </nav>

@@ -18,15 +18,34 @@
         });
     });
 
-    const sel = document.getElementById('filtro');
-    if (sel && sel.dataset && sel.dataset.current) {
-        const wanted = sel.dataset.current.toLowerCase();
-        for (const opt of sel.options) {
+    const selFiltro = document.getElementById('filtro');
+    if (selFiltro && selFiltro.dataset && selFiltro.dataset.current) {
+        const wanted = selFiltro.dataset.current.toLowerCase();
+        for (const opt of selFiltro.options) {
             if (opt.value.toLowerCase() === wanted) {
-                sel.value = opt.value;
+                selFiltro.value = opt.value;
                 break;
             }
         }
     }
-})();
 
+    const selTam = document.getElementById('tamano');
+    if (selTam && selTam.dataset && selTam.dataset.current) {
+        const wanted = String(selTam.dataset.current);
+        for (const opt of selTam.options) {
+            if (opt.value === wanted) {
+                selTam.value = opt.value;
+                break;
+            }
+        }
+    }
+
+    const btnCrear = document.getElementById('btnCrearTarea');
+    if (btnCrear) {
+        btnCrear.addEventListener('click', function (e) {
+            e.preventDefault();
+            const linkForm = document.querySelector('.sidebar-nav .nav-link[data-target="#panel-form"]');
+            if (linkForm) linkForm.click();
+        });
+    }
+})();

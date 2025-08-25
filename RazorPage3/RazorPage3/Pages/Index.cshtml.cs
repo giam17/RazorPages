@@ -13,9 +13,10 @@ namespace RazorPage3.Pages
 
         public string Filtro { get; private set; } = "todos";
 
-        public void OnGet(int pagina = 1, string? filtro = "todos")
+        public void OnGet(int pagina = 1, string? filtro = "todos", int? tamano = null)
         {
             Filtro = string.IsNullOrWhiteSpace(filtro) ? "todos" : filtro;
+            if (tamano.HasValue && tamano.Value > 0) TamanoPagina = tamano.Value;
 
             var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "tareas.json");
             var json = System.IO.File.ReadAllText(path);

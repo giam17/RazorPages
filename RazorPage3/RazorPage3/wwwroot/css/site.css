@@ -185,7 +185,7 @@ button {
         display: block;
     }
 
-/* Tarjetas y paginación */
+
 .card {
     background: #fff;
     border: 1px solid var(--border);
@@ -233,7 +233,7 @@ button {
     border-color: var(--border);
 }
 
-/* Badges extras */
+
 .badge.bg-success, .badge-success {
     background-color: #28a745;
     color: #fff;
@@ -285,3 +285,5 @@ h1.h4, h1, h2, h3 {
     outline: 2px dashed rgba(72,148,130,0.5);
     outline-offset: 2px;
 }
+
+
